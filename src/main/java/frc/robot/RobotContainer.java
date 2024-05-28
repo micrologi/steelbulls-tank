@@ -3,7 +3,9 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants.OIConstants;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.TankSubsystem;
 
 public class RobotContainer {
@@ -37,12 +39,11 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    //Zera a posição de frente     
-    //JoystickButton setZeroHeading = new JoystickButton(m_driverController, 3);
-    //setZeroHeading.onTrue(new InstantCommand(
-    //        () -> robotTank.zeroHeading()
-    //    )
-    //);
+    JoystickButton setZeroHeading = new JoystickButton(joystickDrive,3);
+    setZeroHeading.onTrue(new InstantCommand(
+            () -> robotTank.resetAngle()
+        )
+    );
 
   }
 
