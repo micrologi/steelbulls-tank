@@ -25,6 +25,10 @@ public class RobotContainer {
    */
   public RobotContainer() {
       
+
+    //Reseta frente
+    robotTank.inverseFront();
+
     // Configura os botão padrão
     configureButtonBindings();
 
