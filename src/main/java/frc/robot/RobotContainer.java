@@ -7,11 +7,15 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.TankSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 public class RobotContainer {
 
   // Os subsistemas do robô
   private final TankSubsystem robotTank = new TankSubsystem();
+
+  // Subsistema da câmera
+  private final VisionSubsystem vision = new VisionSubsystem();
 
   // O Joystick do robô
   Joystick joystickDrive = new Joystick(OIConstants.kDriverControllerPort);
@@ -23,6 +27,8 @@ public class RobotContainer {
       
     // Configura os botão padrão
     configureButtonBindings();
+
+    vision.getTx();
 
     // Configure comandos padrão do Driving
     robotTank.setDefaultCommand(
@@ -42,6 +48,12 @@ public class RobotContainer {
     JoystickButton setZeroHeading = new JoystickButton(joystickDrive,3);
     setZeroHeading.onTrue(new InstantCommand(
             () -> robotTank.resetAngle()
+        )
+    );
+
+    JoystickButton setInverseFront = new JoystickButton(joystickDrive,4);
+    setInverseFront.onTrue(new InstantCommand(
+            () -> robotTank.inverseFront()
         )
     );
 
