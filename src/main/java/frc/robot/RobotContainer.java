@@ -57,9 +57,14 @@ public class RobotContainer {
         )
     );
 
-    JoystickButton setAngleFront = new JoystickButton(joystickDrive,1);
+    JoystickButton setAngleFront = new JoystickButton(joystickDrive,6);
     setAngleFront.onTrue(new InstantCommand(
             () -> robotTank.setAngleFront(90)
+        )
+    );
+    JoystickButton setAngleFrontInverted = new JoystickButton(joystickDrive,5);
+    setAngleFrontInverted.onTrue(new InstantCommand(
+            () -> robotTank.setAngleFront(-90)
         )
     );
 
