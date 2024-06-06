@@ -25,8 +25,9 @@ public class TankSubsystem extends SubsystemBase {
 
   private final Pigeon2 gyro = new Pigeon2(50);
   
-  private PIDController pidDrive = new PIDController(0.01, 0, 0);
+  private PIDController pidDrive = new PIDController(0.01, 0, 0);  
   private double angleAt = 0;
+  private double flagFront = 1;
 
   public TankSubsystem() {
 
@@ -53,6 +54,8 @@ public class TankSubsystem extends SubsystemBase {
     double pidValue;
 
     //dash.PV("TESTE",123);
+
+    y = y * flagFront;
 
     if (y > 0.8) {
       y = 0.8;
@@ -97,6 +100,10 @@ public class TankSubsystem extends SubsystemBase {
     }
 
 
+  }
+
+  public void inverseFront() {
+    flagFront = flagFront * -1;
   }
 
 
