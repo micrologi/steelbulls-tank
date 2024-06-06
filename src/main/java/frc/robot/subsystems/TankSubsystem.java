@@ -106,6 +106,41 @@ public class TankSubsystem extends SubsystemBase {
     flagFront = flagFront * -1;
   }
 
+  public void setAngleFront(double anglePoint) {
+    double angleActual = gyro.getAngle();
+
+    double degree = anglePoint + angleActual;
+    double direction = -1;
+    double kp = 0.01;
+    double velocity = 0.4;
+    double qRotation = 10;
+    
+    double error;
+    double proportional;
+
+    double startTime = System.currentTimeMillis();
+
+    int cont = 0;
+
+    while ((cont < qRotation) && ((System.currentTimeMillis() - startTime) < 3000)) {
+      error = gyro.getAngle() - degree;
+      proportional = kp * error * direction; 
+
+      if (Math.round(error) == 0) {
+        cont++;
+      } else {
+        cont = 0;
+      }
+
+      if (Math.abs(proportional) > velocity) {
+        proportional = velocity * (proportional / Math.abs(proportional));
+      }
+
+      drive(proportional,0);
+
+    }
+    
+  }  
 
   public void zeroDrive() {
     leftFront.set(0);

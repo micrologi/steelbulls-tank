@@ -57,6 +57,12 @@ public class RobotContainer {
         )
     );
 
+    JoystickButton setAngleFront = new JoystickButton(joystickDrive,1);
+    setAngleFront.onTrue(new InstantCommand(
+            () -> robotTank.setAngleFront(90)
+        )
+    );
+
   }
 
 }
