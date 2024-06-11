@@ -49,11 +49,11 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    JoystickButton setZeroHeading = new JoystickButton(joystickDrive,3);
-    setZeroHeading.onTrue(new InstantCommand(
-            () -> robotTank.resetAngle()
-        )
-    );
+    // JoystickButton setZeroHeading = new JoystickButton(joystickDrive,3);
+    // setZeroHeading.onTrue(new InstantCommand(
+    //         () -> robotTank.resetAngle()
+    //     )
+    // );
 
     JoystickButton setInverseFront = new JoystickButton(joystickDrive,4);
     setInverseFront.onTrue(new InstantCommand(
@@ -69,6 +69,11 @@ public class RobotContainer {
     JoystickButton setAngleFrontInverted = new JoystickButton(joystickDrive,5);
     setAngleFrontInverted.onTrue(new InstantCommand(
             () -> robotTank.setAngleFront(-90)
+        )
+    );
+    JoystickButton setFrontAdvance = new JoystickButton(joystickDrive,2);
+    setFrontAdvance.onTrue(new InstantCommand(
+            () -> robotTank.setAdvance(0, 0.5)
         )
     );
 

@@ -142,6 +142,15 @@ public class TankSubsystem extends SubsystemBase {
     
   }  
 
+  public void setAdvance(double x, double y) {
+    double startTime = System.currentTimeMillis();
+    while ((System.currentTimeMillis() - startTime) < 400) {
+        drive(x, y);
+    }
+
+    zeroDrive();
+  }
+
   public void zeroDrive() {
     leftFront.set(0);
     leftBack.set(0);
@@ -153,5 +162,6 @@ public class TankSubsystem extends SubsystemBase {
   public void resetAngle() {
     gyro.reset();
   }
+
 
 }
