@@ -130,18 +130,18 @@ public class TankSubsystem extends SubsystemBase {
 
     double degree = anglePoint + angleActual;
     double direction = -1;
-    double kp = 0.01;
+    double kp = 0.05;
     double velocity = 0.4;
-    double qRotation = 10;
-    
+    double qRotation = 50;
     double error;
     double proportional;
+
 
     double startTime = System.currentTimeMillis();
 
     int cont = 0;
 
-    while ((cont < qRotation) && ((System.currentTimeMillis() - startTime) < 3000)) {
+    while ((cont < qRotation) && ((System.currentTimeMillis() - startTime) < 4000)) {
       error = gyro.getAngle() - degree;
       proportional = kp * error * direction; 
 
@@ -163,6 +163,15 @@ public class TankSubsystem extends SubsystemBase {
 
   public void moveFrontBack(double distanceMeters) {
   }
+  
+  public void setAdvance(double x, double y) {
+    double startTime = System.currentTimeMillis();
+    while ((System.currentTimeMillis() - startTime) < 400) {
+        drive(x, y);
+    }
+
+    zeroDrive();
+  }
 
   public void zeroDrive() {
     leftFront.set(0);
@@ -175,5 +184,6 @@ public class TankSubsystem extends SubsystemBase {
   public void resetAngle() {
     gyro.reset();
   }
+
 
 }
