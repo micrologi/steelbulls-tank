@@ -11,6 +11,7 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.utils.Dashboard;
+import frc.utils.Macro;
 
 public class TankSubsystem extends SubsystemBase {
 
@@ -23,13 +24,17 @@ public class TankSubsystem extends SubsystemBase {
   private final CANSparkMax rightFront;
   private final CANSparkMax rightBack;
 
+  private Macro macro;
+
   private final Pigeon2 gyro = new Pigeon2(50);
   
   private PIDController pidDrive = new PIDController(0.01, 0, 0);  
   private double angleAt = 0;
   private double flagFront = 1;
 
-  public TankSubsystem() {
+  public TankSubsystem(Macro macro) {
+
+    this.macro = macro;
 
     leftFront = new CANSparkMax(8, MotorType.kBrushed);
     leftBack = new CANSparkMax(9, MotorType.kBrushed);
@@ -48,12 +53,34 @@ public class TankSubsystem extends SubsystemBase {
 
   }
 
-
   public void drive(double x, double y) {
     double angleAdjust = 0;
-    double pidValue;
 
-    //dash.PV("TESTE",123);
+    if ((x != 0) || (y != 0)) {
+      macro.flagPlayMacro = false;
+      macro.macroKeyAct = 0;  
+    }
+
+    // Play Macro
+    if (macro.flagPlayMacro) {
+      x = macro.getX(macro.macroKeyAct);
+      y = macro.getY(macro.macroKeyAct);
+      
+      if (macro.macroKeyAct >= macro.getLastKey()) {
+        macro.flagPlayMacro = false;
+        macro.macroKeyAct = 0;  
+      } else {
+        macro.macroKeyAct++;
+      }
+
+    }
+
+    
+    // Record Macro
+    if (macro.flagRecordMacro) {
+      macro.Add(x, y);
+    }
+
 
     y = y * flagFront;
 
@@ -81,14 +108,6 @@ public class TankSubsystem extends SubsystemBase {
     }
 
 
-    /* MAC - Código abaixo deixava mais lento a virada
-    if (x > 0.2) {
-      x = 0.2;
-    } else if (x < -0.2) {
-      x = -0.2;
-    }
-    */
-    
     leftFront.set(y - x);
     leftBack.set(y - x);
     rightFront.set(-y - x);
@@ -141,6 +160,9 @@ public class TankSubsystem extends SubsystemBase {
     }
     
   }  
+
+  public void moveFrontBack(double distanceMeters) {
+  }
 
   public void zeroDrive() {
     leftFront.set(0);

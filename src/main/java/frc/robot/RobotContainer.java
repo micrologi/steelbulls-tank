@@ -8,11 +8,15 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.TankSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.utils.Macro;
 
 public class RobotContainer {
 
+  // Sistema de macros
+  private final Macro macro = new Macro();
+
   // Os subsistemas do robô
-  private final TankSubsystem robotTank = new TankSubsystem();
+  private final TankSubsystem robotTank = new TankSubsystem(macro);
 
   // Subsistema da câmera
   private final VisionSubsystem vision = new VisionSubsystem();
@@ -35,7 +39,7 @@ public class RobotContainer {
     vision.getTx();
 
     // Configure comandos padrão do Driving
-    robotTank.setDefaultCommand(
+    robotTank.setDefaultCommand(      
 
       new RunCommand(
         () -> robotTank.drive(
@@ -43,6 +47,7 @@ public class RobotContainer {
           MathUtil.applyDeadband(joystickDrive.getRawAxis(1), 0.1) 
         ),
         robotTank)
+        
     );
 
   }
@@ -66,6 +71,19 @@ public class RobotContainer {
             () -> robotTank.setAngleFront(90)
         )
     );
+    
+    JoystickButton recordMacro = new JoystickButton(joystickDrive,7);
+    recordMacro.onTrue(new InstantCommand(
+            () -> macro.recordMacro()
+        )
+    );
+
+    JoystickButton playMacro = new JoystickButton(joystickDrive,8);
+    playMacro.onTrue(new InstantCommand(
+            () -> macro.playMacro()
+        )
+    );
+
 
   }
 
