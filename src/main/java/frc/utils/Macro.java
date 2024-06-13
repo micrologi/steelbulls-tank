@@ -36,6 +36,9 @@ public class Macro {
       this.flagRecordMacro = false;
     } 
 
+    if (this.flagPlayMacro) 
+      reverseXY();
+
     if (getSize() > 0) {
       this.macroKeyAct = 0;
       this.flagPlayMacro = !this.flagPlayMacro;
