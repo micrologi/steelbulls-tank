@@ -4,9 +4,9 @@
  */
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,6 +32,8 @@ public class TankSubsystem extends SubsystemBase {
   private double angleAt = 0;
   private double flagFront = 1;
 
+  public boolean flagAngleFront = true;
+
   public TankSubsystem(Macro macro) {
 
     this.macro = macro;
@@ -53,10 +55,14 @@ public class TankSubsystem extends SubsystemBase {
 
   }
 
-  public void drive(double x, double y) {
+  public void drive(double x, double y, boolean sourceControl) {
     double angleAdjust = 0;
 
-    if ((x != 0) || (y != 0)) {
+    if ((x != 0) || (y != 0)) {      
+
+      if (sourceControl)
+        flagAngleFront = false;
+      
       macro.flagPlayMacro = false;
       macro.macroKeyAct = 0;  
     }
@@ -136,12 +142,11 @@ public class TankSubsystem extends SubsystemBase {
     double error;
     double proportional;
 
-
     double startTime = System.currentTimeMillis();
 
     int cont = 0;
 
-    while ((cont < qRotation) && ((System.currentTimeMillis() - startTime) < 4000)) {
+    while (flagAngleFront && (cont < qRotation) && ((System.currentTimeMillis() - startTime) < 50)) {
       error = gyro.getAngle() - degree;
       proportional = kp * error * direction; 
 
@@ -155,7 +160,7 @@ public class TankSubsystem extends SubsystemBase {
         proportional = velocity * (proportional / Math.abs(proportional));
       }
 
-      drive(proportional,0);
+      drive(proportional,0,false);
 
     }
     
@@ -167,7 +172,7 @@ public class TankSubsystem extends SubsystemBase {
   public void setAdvance(double x, double y) {
     double startTime = System.currentTimeMillis();
     while ((System.currentTimeMillis() - startTime) < 400) {
-        drive(x, y);
+        drive(x, y, false);
     }
 
     zeroDrive();

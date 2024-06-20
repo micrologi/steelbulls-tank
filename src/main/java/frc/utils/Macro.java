@@ -1,10 +1,14 @@
 package frc.utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import frc.utils.Dashboard;
 
+/*
+ * Mais uma revolução meus amigos, um sistema de Macros no Robô
+ * Isso faz o Steel Bulls um dos únicos a guardar seus movimentos. Pasmem!
+ * 
+ * @author  Marlon Andrei
+ * 
+ */
 public class Macro {
 
   private ArrayList<Double> x = new ArrayList<Double>();

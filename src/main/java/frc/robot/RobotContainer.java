@@ -2,10 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
-import frc.robot.Constants.OIConstants;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.TankSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.utils.Macro;
@@ -19,7 +19,7 @@ public class RobotContainer {
   private final TankSubsystem robotTank = new TankSubsystem(macro);
 
   // Subsistema da câmera
-  private final VisionSubsystem vision = new VisionSubsystem();
+  private final VisionSubsystem vision = new VisionSubsystem(robotTank);
 
   // O Joystick do robô
   Joystick joystickDrive = new Joystick(OIConstants.kDriverControllerPort);
@@ -31,12 +31,10 @@ public class RobotContainer {
       
 
     //Reseta frente
-    robotTank.inverseFront();
+    //robotTank.inverseFront();
 
     // Configura os botão padrão
     configureButtonBindings();
-
-    vision.getTx();
 
     // Configure comandos padrão do Driving
     robotTank.setDefaultCommand(      
@@ -44,7 +42,8 @@ public class RobotContainer {
       new RunCommand(
         () -> robotTank.drive(
           MathUtil.applyDeadband(joystickDrive.getRawAxis(4), 0.1), 
-          MathUtil.applyDeadband(joystickDrive.getRawAxis(1), 0.1) 
+          MathUtil.applyDeadband(joystickDrive.getRawAxis(1), 0.1),
+          true 
         ),
         robotTank)
         
