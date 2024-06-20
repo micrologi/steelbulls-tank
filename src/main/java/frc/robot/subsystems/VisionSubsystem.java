@@ -31,17 +31,22 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    NetworkTableEntry tableTx = table.getEntry("tx");
-    NetworkTableEntry tableTy = table.getEntry("ty");
-    this.tx = tableTx.getDouble(0);
-    this.ty = tableTy.getDouble(0);
-    
-    if (this.ty != 0.0) {
-      this.robot.setAdvance(ty);
-    }
-    if (this.tx != 0.0) {
-      this.robot.flagAngleFront = true;
-      this.robot.setAngleFront(tx);
+
+    if (flagVisionActive) {
+
+      NetworkTableEntry tableTx = table.getEntry("tx");
+      NetworkTableEntry tableTy = table.getEntry("ty");
+      this.tx = tableTx.getDouble(0);
+      this.ty = tableTy.getDouble(0);
+      
+      if (this.ty != 0.0) {
+        this.robot.setAdvance(ty);
+      }
+      if (this.tx != 0.0) {
+        this.robot.flagAngleFront = true;
+        this.robot.setAngleFront(tx);
+      }
+
     }
 
   }
