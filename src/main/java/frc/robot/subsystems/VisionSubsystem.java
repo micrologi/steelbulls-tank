@@ -17,9 +17,10 @@ public class VisionSubsystem extends SubsystemBase {
   private Dashboard dash = new Dashboard();
   private double tx;
   private TankSubsystem robot; 
+  private boolean flagVisionActive = false;
 
   public VisionSubsystem(TankSubsystem robotTank) {
-    this.robot = robotTank;
+    this.robot = robotTank;    
 
     for (int port = 5800; port <= 5807; port++) {
         PortForwarder.add(port, "limelight.local", port);
@@ -28,17 +29,23 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    NetworkTableEntry tableTx = table.getEntry("tx");
-    
-    this.tx = tableTx.getDouble(0);
 
-    if (this.tx != 0.0) {
-      this.robot.flagAngleFront = true;
-      this.robot.setAngleFront(tx);
+    if (this.flagVisionActive) {
+
+      NetworkTableEntry tableTx = table.getEntry("tx");    
+      this.tx = tableTx.getDouble(0);
+
+      if (this.tx != 0.0) {
+        this.robot.flagAngleFront = true;
+        this.robot.setAngleFront(tx);
+      }
     }
 
   }
-  
+ 
+  public void setFlagVisionActive() {
+    this.flagVisionActive = !this.flagVisionActive;
+  }
 
 
 }

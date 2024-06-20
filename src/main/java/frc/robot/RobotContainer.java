@@ -93,6 +93,13 @@ public class RobotContainer {
         )
     );
 
+    // Verde
+    JoystickButton setFlagVisionActive = new JoystickButton(joystickDrive,1);
+    setFlagVisionActive.onTrue(new InstantCommand(
+            () -> vision.setFlagVisionActive()
+        )
+    );
+
 
   }
 
