@@ -169,12 +169,11 @@ public class TankSubsystem extends SubsystemBase {
   public void moveFrontBack(double distanceMeters) {
   }
   
-  public void setAdvance(double x, double y) {
+  public void setAdvance(double ty) {
     double startTime = System.currentTimeMillis();
-    while ((System.currentTimeMillis() - startTime) < 400) {
-        drive(x, y, false);
+    while(ty > -15.00 && (System.currentTimeMillis() - startTime) < 200) {
+        drive(0, -0.3, false);
     }
-
     zeroDrive();
   }
 
