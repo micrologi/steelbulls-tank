@@ -75,11 +75,11 @@ public class RobotContainer {
             () -> robotTank.setAngleFront(-90)
         )
     );
-    JoystickButton setFrontAdvance = new JoystickButton(joystickDrive,2);
-    setFrontAdvance.onTrue(new InstantCommand(
-            () -> robotTank.setAdvance(0, 0.5)
-        )
-    );
+    // JoystickButton setFrontAdvance = new JoystickButton(joystickDrive,2);
+    // setFrontAdvance.onTrue(new InstantCommand(
+    //         () -> robotTank.setAdvance(0, 0.5)
+    //     )
+    // );
     
     JoystickButton recordMacro = new JoystickButton(joystickDrive,7);
     recordMacro.onTrue(new InstantCommand(
