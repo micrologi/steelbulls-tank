@@ -42,7 +42,7 @@ public class VisionSubsystem extends SubsystemBase {
       if (this.ty != 0.0) {
         this.robot.setAdvance(ty);
       }
-      if (this.tx != 0.0) {
+      if ((this.tx != 0.0) && (ty > -15.00)) {
         this.robot.flagAngleFront = true;
         this.robot.setAngleFront(tx);
       }
